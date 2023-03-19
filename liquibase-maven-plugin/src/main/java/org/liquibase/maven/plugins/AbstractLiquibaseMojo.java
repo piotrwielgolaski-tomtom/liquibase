@@ -3,6 +3,7 @@ package org.liquibase.maven.plugins;
 import liquibase.GlobalConfiguration;
 import liquibase.Liquibase;
 import liquibase.Scope;
+import liquibase.ThreadLocalScopeManager;
 import liquibase.changelog.visitor.ChangeExecListener;
 import liquibase.changelog.visitor.DefaultChangeExecListener;
 import liquibase.configuration.LiquibaseConfiguration;
@@ -54,6 +55,9 @@ import java.util.*;
 @SuppressWarnings("java:S2583")
 public abstract class AbstractLiquibaseMojo extends AbstractMojo {
 
+    static {
+        Scope.setScopeManager( new ThreadLocalScopeManager(null));
+    }
     /**
      * Suffix for fields that are representing a default value for a another field.
      */
@@ -627,6 +631,10 @@ public abstract class AbstractLiquibaseMojo extends AbstractMojo {
         if (StringUtil.trimToNull(logging) != null) {
             getLog().error("The liquibase-maven-plugin now manages logging via the standard maven logging config, not the 'logging' configuration. Use the -e, -X or -q flags or see https://maven.apache.org/maven-logging.html");
         }
+        if (skip) {
+            getLog().warn("Liquibase skipped due to Maven configuration");
+            return;
+        }
 
         try {
             Scope.child(Scope.Attr.logService, new MavenLogService(getLog()), () -> {
@@ -645,10 +653,6 @@ public abstract class AbstractLiquibaseMojo extends AbstractMojo {
 
                 if (!LiquibaseCommandLineConfiguration.SHOULD_RUN.getCurrentValue()) {
                     getLog().info("Liquibase did not run because " + LiquibaseCommandLineConfiguration.SHOULD_RUN.getKey() + " was set to false");
-                    return;
-                }
-                if (skip) {
-                    getLog().warn("Liquibase skipped due to Maven configuration");
                     return;
                 }
 

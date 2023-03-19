@@ -318,6 +318,10 @@ public class OfflineConnection implements DatabaseConnection {
         this.caseSensitive = caseSensitive;
     }
 
+    public String getChangeLogFile() {
+        return changeLogFile;
+    }
+
     /**
      * Output Liquibase SQL
      */

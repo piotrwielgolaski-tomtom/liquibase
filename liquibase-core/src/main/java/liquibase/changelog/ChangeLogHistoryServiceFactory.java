@@ -87,12 +87,14 @@ public class ChangeLogHistoryServiceFactory {
     }
 
     public void resetAll() {
-        synchronized (ChangeLogHistoryServiceFactory.class) {
-            for (ChangeLogHistoryService changeLogHistoryService : registry) {
-                changeLogHistoryService.reset();
-            }
-            instance = null;
-        }
+        System.out.println("resetAll");
+        // FIXME
+//        synchronized (ChangeLogHistoryServiceFactory.class) {
+//            for (ChangeLogHistoryService changeLogHistoryService : registry) {
+//                changeLogHistoryService.reset();
+//            }
+//            instance = null;
+//        }
     }
 }
 

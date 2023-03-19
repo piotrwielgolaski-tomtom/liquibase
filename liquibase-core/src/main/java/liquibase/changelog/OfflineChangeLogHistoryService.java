@@ -75,7 +75,8 @@ public class OfflineChangeLogHistoryService extends AbstractChangeLogHistoryServ
 
     @Override
     public boolean supports(Database database) {
-        return (database.getConnection() != null) && (database.getConnection() instanceof OfflineConnection);
+        return (database.getConnection() != null) && (database.getConnection() instanceof OfflineConnection) &&
+               changeLogFile.equals(new File( ((OfflineConnection)database.getConnection()).getChangeLogFile()));
     }
 
     public boolean isExecuteDmlAgainstDatabase() {

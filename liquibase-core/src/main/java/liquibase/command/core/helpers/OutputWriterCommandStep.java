@@ -21,7 +21,7 @@ import java.util.List;
 public class OutputWriterCommandStep extends AbstractCommandStep implements CleanUpCommandStep {
     protected static final String[] COMMAND_NAME = {"outputWriterCommandStep"};
 
-    private static OutputStreamWriter outputStreamWriter;
+    private OutputStreamWriter outputStreamWriter;
 
     @Override
     public List<Class<?>> providedDependencies() {
